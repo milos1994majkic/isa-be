@@ -14,6 +14,16 @@ public class UserRequest {
 	private String lastname;
 	
 	private String email;
+	
+	private String address;
+	
+	private String city;
+	
+	private String state;
+	
+	private String phone;
+	
+	private String lbo;
 
 	public String getUsername() {
 		return username;
@@ -63,4 +73,43 @@ public class UserRequest {
 		this.email = email;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getLbo() {
+		return lbo;
+	}
+
+	public void setLbo(String lbo) {
+		this.lbo = lbo;
+	}
 }
