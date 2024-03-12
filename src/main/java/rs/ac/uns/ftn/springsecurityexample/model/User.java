@@ -22,6 +22,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import rs.ac.uns.ftn.springsecurityexample.model.enums.AppointmentType;
+import rs.ac.uns.ftn.springsecurityexample.model.enums.UserStatus;
+
 // POJO koji implementira Spring Security UserDetails interfejs koji specificira
 // osnovne osobine Spring korisnika (koje role ima, da li je nalog zakljucan, istekao, da li su kredencijali istekli)
 @Entity
@@ -50,9 +53,30 @@ public class User implements UserDetails {
 
     @Column(name = "email")
     private String email;
+    
+    @Column(name = "address")
+    private String address;
+	
+    @Column(name = "city")
+	private String city;
+	
+    @Column(name = "state")
+	private String state;
+	
+    @Column(name = "phone")
+	private String phone;
+	
+    @Column(name = "lbo")
+	private String lbo;
 
-    @Column(name = "enabled")
-    private boolean enabled;
+	@Column(name = "activation_code")
+    private String activationCode;
+	
+	@Column(name = "denial_reason")
+    private String denialReason;
+    
+    @Column(name = "status")
+    private UserStatus status;
 
     @Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;
@@ -68,6 +92,11 @@ public class User implements UserDetails {
 	@JoinColumn(name = "clinic_id", nullable = true)
 	private Clinic clinic;
 
+
+    //if user is doctor
+    @Column(name = "appointment_type")
+    private AppointmentType appointmentType;
+
     public Long getId() {
         return id;
     }
@@ -75,7 +104,7 @@ public class User implements UserDetails {
     public void setId(Long id) {
         this.id = id;
     }
-
+    @Override
     public String getUsername() {
         return username;
     }
@@ -142,14 +171,28 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return status == UserStatus.ACTIVATED;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+    
+    
+    public String getDenialReason() {
+		return denialReason;
+	}
 
-    public Timestamp getLastPasswordResetDate() {
+	public void setDenialReason(String denialReason) {
+		this.denialReason = denialReason;
+	}
+
+	public UserStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(UserStatus status) {
+		this.status = status;
+	}
+
+	public Timestamp getLastPasswordResetDate() {
         return lastPasswordResetDate;
     }
 
@@ -175,4 +218,59 @@ public class User implements UserDetails {
         return true;
     }
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getLbo() {
+		return lbo;
+	}
+
+	public void setLbo(String lbo) {
+		this.lbo = lbo;
+	}
+	
+	public String getActivationCode() {
+		return activationCode;
+	}
+
+	public void setActivationCode(String activationCode) {
+		this.activationCode = activationCode;
+	}
+
+    public AppointmentType getAppointmentType() {
+        return appointmentType;
+    }
+
+    public void setAppointmentType(AppointmentType appointmentType) {
+        this.appointmentType = appointmentType;
+    }
 }

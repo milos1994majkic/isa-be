@@ -7,9 +7,10 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.springsecurityexample.model.Room;
 import rs.ac.uns.ftn.springsecurityexample.repository.RoomRepository;
+import rs.ac.uns.ftn.springsecurityexample.service.RoomService;
 
 @Service
-public class RoomServiceImpl {
+public class RoomServiceImpl implements RoomService {
 
 	@Autowired
 	private RoomRepository roomRepository;

@@ -1,6 +1,8 @@
 package rs.ac.uns.ftn.springsecurityexample.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import rs.ac.uns.ftn.springsecurityexample.model.enums.AppointmentStatus;
+import rs.ac.uns.ftn.springsecurityexample.model.enums.AppointmentType;
 
 @Entity
 @Table(name = "APPOINTMENT")
@@ -24,7 +27,10 @@ public class Appointment {
 	private Long id;
 
 	@Column(name = "date", nullable = false)
-	private LocalDateTime date;
+	private LocalDate date;
+
+	@Column(name = "time", nullable = false)
+	private LocalTime time;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "doctor_id", nullable = false)
@@ -45,6 +51,9 @@ public class Appointment {
 	@Column(name = "status", nullable = false)
 	private AppointmentStatus status;
 
+	@Column(name = "type", nullable = false)
+	private AppointmentType type;
+
 	public Appointment() {
 		super();
 	}
@@ -57,12 +66,20 @@ public class Appointment {
 		this.id = id;
 	}
 
-	public LocalDateTime getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDateTime date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
+	}
+
+	public LocalTime getTime() {
+		return time;
+	}
+
+	public void setTime(LocalTime time) {
+		this.time = time;
 	}
 
 	public User getDoctor() {
@@ -103,5 +120,13 @@ public class Appointment {
 
 	public void setStatus(AppointmentStatus status) {
 		this.status = status;
+	}
+
+	public AppointmentType getType() {
+		return type;
+	}
+
+	public void setType(AppointmentType type) {
+		this.type = type;
 	}
 }
