@@ -28,7 +28,7 @@ public class EmailService {
 		mail.setFrom(env.getProperty("spring.mail.username"));
 		mail.setSubject("Account activation");
 
-		String activationURL = "http://localhost:8080/api/activateAccount/" + user.getActivationCode();
+		String activationURL = "http://localhost:5173/activateAccount/" + user.getActivationCode();
 
 		mail.setText("Hello, " + user.getFirstName() + "! \n "
 				+ "To acctivate your account, please click the following link:\n" + activationURL);

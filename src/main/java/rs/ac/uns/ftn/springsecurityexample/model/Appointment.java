@@ -54,6 +54,10 @@ public class Appointment {
 	@Column(name = "type", nullable = false)
 	private AppointmentType type;
 
+	@Column(name = "price", nullable = false)
+	private int price;
+
+
 	public Appointment() {
 		super();
 	}
@@ -128,5 +132,13 @@ public class Appointment {
 
 	public void setType(AppointmentType type) {
 		this.type = type;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 }

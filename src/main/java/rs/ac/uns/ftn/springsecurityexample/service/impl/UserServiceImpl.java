@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
 		List<Role> roles = roleService.findByName("ROLE_USER");
 		u.setRoles(roles);
 		
-		//emailService.sendActivationCode(u);
+		emailService.sendActivationCode(u);
 		
 		return this.userRepository.save(u);
 	}
@@ -141,25 +141,27 @@ public class UserServiceImpl implements UserService {
         return UserDataMapper.toDTO(user);
 	}
 
+	public List<DoctorDTO> getFreeDoctors(DoctorSearchDTO dto){
 
-	private List<DoctorDTO> getFreeDoctors(long clinicId, ClinicSearchDTO dto){
-
-		Clinic clinic = clinicRepository.findById(clinicId).orElseGet(null);
+		Clinic clinic = clinicRepository.findById(dto.getClinicId()).orElseGet(null);
 		if(clinic == null){
 			return null;
 		}
 
-		List<User> doctors = userRepository.findByClinicId(clinicId);
+		List<User> doctors = userRepository.searchDoctor(dto.getClinicId(), dto.getFirstName(), dto.getLastName(), dto.getRatingFrom(), dto.getRatingTo());
 
 		List<DoctorDTO> doctorDtos = new ArrayList<DoctorDTO>();
 		for(User user : doctors){
-			List<Appointment> doctorFreeAppointments = appointmentService.getFreeAppointmentsForDoctor(clinic, user ,dto);
+			List<Appointment> doctorFreeAppointments = appointmentService.getFreeAppointmentsForDoctor(clinic, user, dto.getDate(), dto.getAppointmentType());
+			if(doctorFreeAppointments.isEmpty()){
+				continue;
+			}
 			List<AppointmentDTO> doctorFreeAppointmentsDtos = AppointmentMapper.toDTOList(doctorFreeAppointments);
 
 			DoctorDTO doctorDTO = new DoctorDTO();
 			doctorDTO.setFirstName(user.getFirstName());
 			doctorDTO.setLastName(user.getLastName());
-			doctorDTO.setRating(0);	//ocena doktora
+			doctorDTO.setRating(user.getRating());
 			doctorDTO.setFreeAppointments(doctorFreeAppointmentsDtos);
 
 			doctorDtos.add(doctorDTO);
@@ -167,4 +169,14 @@ public class UserServiceImpl implements UserService {
 		return doctorDtos;
 	}
 
+	public boolean activateAccount(String id) {
+		User user = this.userRepository.findByActivationCode(id);
+		if(user == null || user.getStatus() == UserStatus.ACTIVATED) {
+			return false;
+		}
+
+		user.setStatus(UserStatus.ACTIVATED);
+		this.userRepository.save(user);
+		return true;
+	}
 }

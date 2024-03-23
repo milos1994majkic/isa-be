@@ -10,7 +10,6 @@ public class AppointmentMapper {
 
     public static Appointment toDomain(AppointmentDTO dto) {
         Appointment appointment = new Appointment();
-        appointment.setId(dto.getId());
         appointment.setDate(dto.getDate());
         appointment.setTime(dto.getTime());
         appointment.setStatus(dto.getStatus());
@@ -31,6 +30,8 @@ public class AppointmentMapper {
             dto.setRoomId(appointment.getRoom().getId());
         }
         dto.setStatus(appointment.getStatus());
+        dto.setPrice(appointment.getPrice());
+        dto.setType(appointment.getType());
         return dto;
     }
 

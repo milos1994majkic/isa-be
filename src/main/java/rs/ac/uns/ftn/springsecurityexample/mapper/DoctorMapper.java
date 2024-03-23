@@ -10,6 +10,7 @@ public class DoctorMapper {
         DoctorDTO dto = new DoctorDTO();
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
+        dto.setRating(user.getRating());
 
         return dto;
     }

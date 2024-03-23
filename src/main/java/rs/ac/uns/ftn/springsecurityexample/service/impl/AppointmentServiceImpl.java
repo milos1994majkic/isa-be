@@ -1,5 +1,6 @@
 package rs.ac.uns.ftn.springsecurityexample.service.impl;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,12 +8,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.springsecurityexample.dto.AppointmentDTO;
+import rs.ac.uns.ftn.springsecurityexample.dto.AppointmentUserDTO;
 import rs.ac.uns.ftn.springsecurityexample.dto.ClinicSearchDTO;
+import rs.ac.uns.ftn.springsecurityexample.mapper.AppointmentMapper;
 import rs.ac.uns.ftn.springsecurityexample.model.Appointment;
 import rs.ac.uns.ftn.springsecurityexample.model.Clinic;
+import rs.ac.uns.ftn.springsecurityexample.model.Room;
 import rs.ac.uns.ftn.springsecurityexample.model.User;
 import rs.ac.uns.ftn.springsecurityexample.model.enums.AppointmentStatus;
+import rs.ac.uns.ftn.springsecurityexample.model.enums.AppointmentType;
 import rs.ac.uns.ftn.springsecurityexample.repository.AppointmentRepository;
+import rs.ac.uns.ftn.springsecurityexample.repository.ClinicRepository;
+import rs.ac.uns.ftn.springsecurityexample.repository.RoomRepository;
+import rs.ac.uns.ftn.springsecurityexample.repository.UserRepository;
 import rs.ac.uns.ftn.springsecurityexample.service.AppointmentService;
 
 @Service
@@ -20,6 +29,13 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Autowired
 	private AppointmentRepository appointmentRepository;
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private ClinicRepository clinicRepository;
+
+	@Autowired
+	private RoomRepository roomRepository;
 
 	public Appointment findById(Long id) {
 		Appointment appointment = appointmentRepository.findById(id).orElse(null);
@@ -42,13 +58,13 @@ public class AppointmentServiceImpl implements AppointmentService {
 		}
 		return true;
 	}
-	public List<Appointment> getFreeAppointmentsForDoctor(Clinic clinic, User doctor, ClinicSearchDTO dto){
-		if(doctor.getAppointmentType() != dto.getAppointmentType()){
+	public List<Appointment> getFreeAppointmentsForDoctor(Clinic clinic, User doctor, LocalDate date, AppointmentType type){
+		if(doctor.getAppointmentType() != type){
 			return new ArrayList<Appointment>();
 		}
 
 		List<Appointment> freeAppointments = new ArrayList<Appointment>();
-		List<Appointment> doctorAppointments = appointmentRepository.getByDoctorIdAndDate(doctor.getId(), dto.getDate());
+		List<Appointment> doctorAppointments = appointmentRepository.getByDoctorIdAndDate(doctor.getId(), date);
 
 		LocalTime startTime = clinic.getStartTime();
 		LocalTime endTime = clinic.getEndTime();
@@ -56,14 +72,14 @@ public class AppointmentServiceImpl implements AppointmentService {
 		while(startTime.isBefore(endTime)){
 			if(isDoctorFree(doctorAppointments, startTime)){
 				Appointment appointment = new Appointment();
-				appointment.setDate(dto.getDate());
+				appointment.setDate(date);
 				appointment.setTime(startTime);
 				appointment.setDoctor(doctor);
 				appointment.setUser(null);
 				appointment.setClinic(clinic);
 				appointment.setRoom(null);
 				appointment.setStatus(AppointmentStatus.CREATED);
-				appointment.setType(dto.getAppointmentType());
+				appointment.setType(type);
 
 				freeAppointments.add(appointment);
 			}
@@ -72,5 +88,96 @@ public class AppointmentServiceImpl implements AppointmentService {
 		}
 		return freeAppointments;
 	}
-	
+
+	public Appointment create(AppointmentDTO dto, User loggedUser) {
+		User doctor = this.userRepository.findById(dto.getDoctorId()).orElse(null);
+		if(doctor == null){
+			return null;
+		}
+		Clinic clinic = this.clinicRepository.findById(dto.getClinicId()).orElse(null);
+		if(clinic == null){
+			return null;
+		}
+
+		Room room = roomRepository.findById(1l).orElse(null);
+
+		Appointment appointment = AppointmentMapper.toDomain(dto);
+		appointment.setUser(loggedUser);
+		appointment.setRoom(room);
+		appointment.setStatus(AppointmentStatus.CREATED);
+		appointment.setDoctor(doctor);
+		appointment.setClinic(clinic);
+		appointment.setDate(dto.getDate());
+		appointment.setType(dto.getType());
+		appointment = this.appointmentRepository.save(appointment);
+
+		return appointment;
+	}
+
+	public Appointment acceptAppointment(Long id) {
+		Appointment appointment = this.appointmentRepository.findById(id).orElse(null);
+		if (appointment == null) {
+			return null;
+		}
+
+		if (appointment.getStatus() != AppointmentStatus.CREATED) {
+			return null;
+		}
+		appointment.setStatus(AppointmentStatus.ACCEPTED);
+
+		this.appointmentRepository.save(appointment);
+
+		return appointment;
+	}
+
+	public Appointment denyAppointment(Long id) {
+		Appointment appointment = this.appointmentRepository.findById(id).orElse(null);
+		if (appointment == null) {
+			return null;
+		}
+		if (appointment.getStatus() != AppointmentStatus.CREATED) {
+			return null;
+		}
+		appointment.setStatus(AppointmentStatus.DENIED);
+
+		this.appointmentRepository.save(appointment);
+
+		return appointment;
+	}
+
+	public List<Appointment> findAllPredefined(Long clinicId) {
+
+		return appointmentRepository.findByUserIsNullAndClinicId(clinicId);
+	}
+
+	public List<AppointmentUserDTO> findAllByUserId(Long id) {
+		List<Appointment> appointments = appointmentRepository.findAllByUserId(id);
+		List<AppointmentUserDTO> appointmentsUser = new ArrayList<AppointmentUserDTO>();
+		for (Appointment appointment: appointments) {
+			AppointmentUserDTO dto = new AppointmentUserDTO();
+
+			dto.setId(appointment.getId());
+			dto.setDate(appointment.getDate());
+			dto.setTime(appointment.getTime());
+			dto.setDoctor(appointment.getDoctor().getFirstName() + " " +appointment.getDoctor().getLastName());
+			dto.setUserId(appointment.getUser().getId());
+			dto.setClinic(appointment.getClinic().getName());
+			dto.setRoom(appointment.getRoom().getName());
+			dto.setStatus(appointment.getStatus());
+			dto.setPrice(appointment.getPrice());
+
+			appointmentsUser.add(dto);
+		}
+
+		return appointmentsUser;
+	}
+
+	public void reserveAppointment(User loggedUser, Long id) {
+		Appointment appointment = this.appointmentRepository.findById(id).orElse(null);
+		if (appointment == null) {
+			return;
+		}
+		appointment.setUser(loggedUser);
+		appointmentRepository.save(appointment);
+	}
 }

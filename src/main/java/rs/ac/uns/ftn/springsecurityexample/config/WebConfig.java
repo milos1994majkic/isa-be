@@ -14,8 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/auth/**")
                 .allowedOrigins("http://localhost:5173") // Update the origin to match your React Vite app's URL
-                .allowedMethods("POST") // Add allowed methods as needed
+                .allowedMethods("POST", "PUT") // Add allowed methods as needed
                 .allowedHeaders("*");
     }
-
 }
