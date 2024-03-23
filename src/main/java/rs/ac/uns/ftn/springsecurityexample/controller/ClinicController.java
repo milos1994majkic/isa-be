@@ -12,13 +12,16 @@ import org.springframework.web.bind.annotation.*;
 
 import rs.ac.uns.ftn.springsecurityexample.dto.ClinicDTO;
 import rs.ac.uns.ftn.springsecurityexample.dto.ClinicSearchDTO;
+import rs.ac.uns.ftn.springsecurityexample.dto.DoctorDTO;
 import rs.ac.uns.ftn.springsecurityexample.mapper.ClinicMapper;
 import rs.ac.uns.ftn.springsecurityexample.model.Clinic;
 import rs.ac.uns.ftn.springsecurityexample.service.ClinicService;
 import rs.ac.uns.ftn.springsecurityexample.service.impl.ClinicServiceImpl;
 
+import javax.websocket.server.PathParam;
+
 @RestController
-@RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/clinic", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
 public class ClinicController {
 
@@ -31,7 +34,7 @@ public class ClinicController {
 		return ClinicMapper.toDTO(this.clinicService.findById(id));
 	}
 	
-	@GetMapping("/clinic")
+	@GetMapping()
 	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<List<ClinicDTO>> findAll() {
 		List<Clinic> clinics = this.clinicService.findAll();
@@ -50,4 +53,6 @@ public class ClinicController {
 
 		return new ResponseEntity<>(dtos, HttpStatus.OK);
 	}
+
+	
 }

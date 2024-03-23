@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.springsecurityexample.dto.ClinicDTO;
 import rs.ac.uns.ftn.springsecurityexample.dto.ClinicSearchDTO;
+import rs.ac.uns.ftn.springsecurityexample.dto.DoctorDTO;
 import rs.ac.uns.ftn.springsecurityexample.mapper.ClinicMapper;
+import rs.ac.uns.ftn.springsecurityexample.mapper.DoctorMapper;
 import rs.ac.uns.ftn.springsecurityexample.model.Appointment;
 import rs.ac.uns.ftn.springsecurityexample.model.AppointmentPrice;
 import rs.ac.uns.ftn.springsecurityexample.model.Clinic;
@@ -56,7 +58,7 @@ public class ClinicServiceImpl implements ClinicService {
 		List<Appointment> freeAppointments = new ArrayList<Appointment>();
 		List<User> doctors = userRepository.findByClinicId(clinic.getId());
 		for(User user : doctors){
-			List<Appointment> doctorFreeAppointments = appointmentService.getFreeAppointmentsForDoctor(clinic, user ,dto);
+			List<Appointment> doctorFreeAppointments = appointmentService.getFreeAppointmentsForDoctor(clinic, user, dto.getDate(), dto.getAppointmentType());
 			freeAppointments.addAll(doctorFreeAppointments);
 		}
 		return freeAppointments;
@@ -79,4 +81,6 @@ public class ClinicServiceImpl implements ClinicService {
 		}
 		return searchedClinicDtos;
 	}
+
+
 }

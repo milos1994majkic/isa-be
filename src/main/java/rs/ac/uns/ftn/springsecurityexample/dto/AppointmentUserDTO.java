@@ -1,22 +1,23 @@
 package rs.ac.uns.ftn.springsecurityexample.dto;
+
 import rs.ac.uns.ftn.springsecurityexample.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.springsecurityexample.model.enums.AppointmentType;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class AppointmentDTO {
+public class AppointmentUserDTO {
     private Long id;
     private LocalDate date;
     private LocalTime time;
-    private long doctorId;
+    private String doctor;
     private long userId;
-    private long clinicId;
-    private long roomId;
+    private String clinic;
+    private String room;
     private AppointmentStatus status;
     private AppointmentType type;
     private int price;
-
-    public AppointmentDTO() {
+    public AppointmentUserDTO() {
     }
 
     public Long getId() {
@@ -43,12 +44,12 @@ public class AppointmentDTO {
         this.time = time;
     }
 
-    public long getDoctorId() {
-        return doctorId;
+    public String getDoctor() {
+        return doctor;
     }
 
-    public void setDoctorId(long doctorId) {
-        this.doctorId = doctorId;
+    public void setDoctor(String doctor) {
+        this.doctor = doctor;
     }
 
     public long getUserId() {
@@ -59,20 +60,20 @@ public class AppointmentDTO {
         this.userId = userId;
     }
 
-    public long getClinicId() {
-        return clinicId;
+    public String getClinic() {
+        return clinic;
     }
 
-    public void setClinicId(long clinicId) {
-        this.clinicId = clinicId;
+    public void setClinic(String clinic) {
+        this.clinic = clinic;
     }
 
-    public long getRoomId() {
-        return roomId;
+    public String getRoom() {
+        return room;
     }
 
-    public void setRoomId(long roomId) {
-        this.roomId = roomId;
+    public void setRoom(String room) {
+        this.room = room;
     }
 
     public AppointmentStatus getStatus() {

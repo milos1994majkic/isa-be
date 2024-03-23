@@ -97,6 +97,9 @@ public class User implements UserDetails {
     @Column(name = "appointment_type")
     private AppointmentType appointmentType;
 
+    @Column(name = "rating")
+    private float rating;
+
     public Long getId() {
         return id;
     }
@@ -272,5 +275,13 @@ public class User implements UserDetails {
 
     public void setAppointmentType(AppointmentType appointmentType) {
         this.appointmentType = appointmentType;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 }
