@@ -34,35 +34,51 @@ public class RatingServiceImpl implements RatingService {
 	public List<Rating> findAll() {
 		return ratingRepository.findAll();
 	}
-	
-	public Rating createAppointment(RatingCreationDTO dto) {
+
+	public void updateClinicRating(long clinicId){
+		Clinic clinic = clinicRepository.findById(clinicId).orElse(null);
+		if(clinic == null){
+			return;
+		}
+		float averageGrade = ratingRepository.getAverageForClinic(clinicId);
+		clinic.setRating(averageGrade);
+		clinicRepository.save(clinic);
+	}
+
+	public void updateDoctorRating(long doctorId){
+		User user = userRepository.findById(doctorId).orElse(null);
+		if(user == null){
+			return;
+		}
+		float averageGrade = ratingRepository.getAverageForDoctor(doctorId);
+		user.setRating(averageGrade);
+		userRepository.save(user);
+	}
+
+	public Rating create(RatingCreationDTO dto, User loggedUser) {
 		Rating rating = new Rating();
 		rating.setValue(dto.getValue());
 		
 		Clinic clinic = null;
-		if(dto.getClinicId() != -1) {
+		if(dto.getClinicId() != 0) {
 			clinic = clinicRepository.findById(dto.getClinicId()).orElse(null);
-			if(clinic == null) {
-				return null;
-			}
 		}
-		
 		User doctor = null;
-		if(dto.getDoctorId() != -1) {
+		if(dto.getDoctorId() != 0) {
 			doctor = userRepository.findById(dto.getDoctorId()).orElse(null);
-			if(doctor == null) {
-				return null;
-			}
 		}
-		
 		rating.setClinic(clinic);
 		rating.setDoctor(doctor);
-		
-		
-		User logged = null;		//uzmi logovanog kada resimo spring security
-		rating.setUser(logged);
+
+		rating.setUser(loggedUser);
 		ratingRepository.save(rating);
-		
+
+
+		if(clinic != null){
+			updateClinicRating(clinic.getId());
+		}else if(doctor != null){
+			updateDoctorRating(doctor.getId());
+		}
 		return rating;
 	}
 }

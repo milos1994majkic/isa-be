@@ -12,8 +12,12 @@ public class RatingCreationMapper {
 		RatingCreationDTO dto = new RatingCreationDTO();
 		dto.setId(rating.getId());
 		dto.setValue(rating.getValue());
-		dto.setClinicId(rating.getClinic().getId());
-		dto.setDoctorId(rating.getDoctor().getId());
+		if(rating.getClinic() != null){
+			dto.setClinicId(rating.getClinic().getId());
+		}
+		if(rating.getDoctor() != null){
+			dto.setDoctorId(rating.getDoctor().getId());
+		}
 		return dto;
 	}
 }
