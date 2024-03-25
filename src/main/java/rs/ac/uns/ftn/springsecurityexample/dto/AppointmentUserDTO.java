@@ -10,8 +10,12 @@ public class AppointmentUserDTO {
     private Long id;
     private LocalDate date;
     private LocalTime time;
+    private long doctorId;
     private String doctor;
     private long userId;
+    private boolean rated;
+
+    private long clinicId;
     private String clinic;
     private String room;
     private AppointmentStatus status;
@@ -98,5 +102,29 @@ public class AppointmentUserDTO {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public long getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(long doctorId) {
+        this.doctorId = doctorId;
+    }
+
+    public long getClinicId() {
+        return clinicId;
+    }
+
+    public void setClinicId(long clinicId) {
+        this.clinicId = clinicId;
+    }
+
+    public boolean isRated() {
+        return rated;
+    }
+
+    public void setRated(boolean rated) {
+        this.rated = rated;
     }
 }

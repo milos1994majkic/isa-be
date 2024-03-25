@@ -12,16 +12,10 @@ import rs.ac.uns.ftn.springsecurityexample.dto.AppointmentDTO;
 import rs.ac.uns.ftn.springsecurityexample.dto.AppointmentUserDTO;
 import rs.ac.uns.ftn.springsecurityexample.dto.ClinicSearchDTO;
 import rs.ac.uns.ftn.springsecurityexample.mapper.AppointmentMapper;
-import rs.ac.uns.ftn.springsecurityexample.model.Appointment;
-import rs.ac.uns.ftn.springsecurityexample.model.Clinic;
-import rs.ac.uns.ftn.springsecurityexample.model.Room;
-import rs.ac.uns.ftn.springsecurityexample.model.User;
+import rs.ac.uns.ftn.springsecurityexample.model.*;
 import rs.ac.uns.ftn.springsecurityexample.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.springsecurityexample.model.enums.AppointmentType;
-import rs.ac.uns.ftn.springsecurityexample.repository.AppointmentRepository;
-import rs.ac.uns.ftn.springsecurityexample.repository.ClinicRepository;
-import rs.ac.uns.ftn.springsecurityexample.repository.RoomRepository;
-import rs.ac.uns.ftn.springsecurityexample.repository.UserRepository;
+import rs.ac.uns.ftn.springsecurityexample.repository.*;
 import rs.ac.uns.ftn.springsecurityexample.service.AppointmentService;
 
 @Service
@@ -36,6 +30,12 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Autowired
 	private RoomRepository roomRepository;
+
+	@Autowired
+	private RatingRepository ratingRepository;
+
+	@Autowired
+	private AppointmentPriceRepository appointmentPriceRepository;
 
 	public Appointment findById(Long id) {
 		Appointment appointment = appointmentRepository.findById(id).orElse(null);
@@ -80,6 +80,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 				appointment.setRoom(null);
 				appointment.setStatus(AppointmentStatus.CREATED);
 				appointment.setType(type);
+				AppointmentPrice price = appointmentPriceRepository.getByClinicIdAndAppointmentType(clinic.getId(), type);
+				appointment.setPrice(price.getPrice());
 
 				freeAppointments.add(appointment);
 			}
@@ -109,6 +111,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		appointment.setClinic(clinic);
 		appointment.setDate(dto.getDate());
 		appointment.setType(dto.getType());
+		appointment.setPrice(dto.getPrice());
 		appointment = this.appointmentRepository.save(appointment);
 
 		return appointment;
@@ -159,12 +162,17 @@ public class AppointmentServiceImpl implements AppointmentService {
 			dto.setId(appointment.getId());
 			dto.setDate(appointment.getDate());
 			dto.setTime(appointment.getTime());
+			dto.setDoctorId(appointment.getDoctor().getId());
 			dto.setDoctor(appointment.getDoctor().getFirstName() + " " +appointment.getDoctor().getLastName());
 			dto.setUserId(appointment.getUser().getId());
+			dto.setClinicId(appointment.getClinic().getId());
 			dto.setClinic(appointment.getClinic().getName());
 			dto.setRoom(appointment.getRoom().getName());
 			dto.setStatus(appointment.getStatus());
 			dto.setPrice(appointment.getPrice());
+			dto.setType(appointment.getType());
+
+			dto.setRated(ratingRepository.existsRatingByUserAndDoctorOrClinic(appointment.getUser().getId(), appointment.getDoctor().getId(), appointment.getClinic().getId()));
 
 			appointmentsUser.add(dto);
 		}

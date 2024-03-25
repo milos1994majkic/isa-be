@@ -93,4 +93,6 @@ public class AppointmentController {
 		appointmentService.reserveAppointment(user, id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+
+
 }
