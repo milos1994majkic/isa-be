@@ -12,7 +12,7 @@ INSERT INTO CLINIC (name, address, start_time, end_time, rating) VALUES ('Alfa M
 INSERT INTO CLINIC (name, address, start_time, end_time, rating) VALUES ('Medical centar', 'Mije Kovacevica 10, Beograd', '09:00:00.000000000', '17:00:00.000000000', 0.0);
 INSERT INTO CLINIC (name, address, start_time, end_time, rating) VALUES ('Privatne klinike', 'Palmoticeva 33, Beograd', '08:00:00.000000000', '20:00:00.000000000', 0.0);
 
-INSERT INTO USERS (username, password, first_name, last_name, email, address, city, state, phone, lbo, activation_code, denial_reason, status, last_password_reset_date, clinic_id, appointment_type, rating) VALUES ('user', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'user@example.com', 'Milana Tepica 4', 'Novi Sad', 'Serbia', '06012345678', '123456789', 'ZDZjNzRkNzUtNzVjMy00MzljLTg5OTEtMGM3NGUzMWFkYjQ0MTcwOTI5NTUzMjg3MA', '', 3, '2017-10-01 21:58:58.508-07', null, 1, 4.5);
+INSERT INTO USERS (username, password, first_name, last_name, email, address, city, state, phone, lbo, activation_code, denial_reason, status, last_password_reset_date, clinic_id, appointment_type, rating) VALUES ('user', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'milos1994majkic@gmail.com', 'Milana Tepica 4', 'Novi Sad', 'Serbia', '06012345678', '123456789', 'ZDZjNzRkNzUtNzVjMy00MzljLTg5OTEtMGM3NGUzMWFkYjQ0MTcwOTI5NTUzMjg3MA', '', 3, '2017-10-01 21:58:58.508-07', null, 1, 4.5);
 INSERT INTO USERS (username, password, first_name, last_name, email, address, city, state, phone, lbo, activation_code, denial_reason, status, last_password_reset_date, clinic_id, appointment_type, rating) VALUES ('admin', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Nikola', 'Nikolic', 'admin@example.com', 'Sonje Marinkovic 1', 'Beograd', 'Serbia', '06012345679', '123456781', 'ZDZjNzRkNzUtNzVjMy00MzljLTg5OTEtMGM3NGUzMWFkYjQ0MTcwOTI5NTUzMjg3MB', '', 3, '2017-10-01 18:57:58.508-07', null, 1, 3.4);
 INSERT INTO USERS (username, password, first_name, last_name, email, address, city, state, phone, lbo, activation_code, denial_reason, status, last_password_reset_date, clinic_id, appointment_type, rating) VALUES ('zivko', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Zivko', 'Zivkovic', 'zivko@example.com', 'Futoska 3', 'Nis', 'Serbia', '06012345671', '123456782', 'ZDZjNzRkNzUtNzVjMy00MzljLTg5OTEtMGM3NGUzMWFkYjQ0MTcwOTI5NTUzMjg3MC', '', 3, '2017-10-01 18:57:58.508-07', null, 1, 5.6);
 INSERT INTO USERS (username, password, first_name, last_name, email, address, city, state, phone, lbo, activation_code, denial_reason, status, last_password_reset_date, clinic_id, appointment_type, rating) VALUES ('mitar', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Mitar', 'Mitrovic', 'mitar@example.com', 'Branka Bajica 65', 'Subotica', 'Serbia', '06012345672', '123456783', 'ZDZjNzRkNzUtNzVjMy00MzljLTg5OTEtMGM3NGUzMWFkYjQ0MTcwOTI5NTUzMjg3MD', '', 3, '2017-10-01 18:57:58.508-07', 1, 1, 3.5);
@@ -34,15 +34,15 @@ INSERT INTO USER_ROLE (user_id, role_id) VALUES (5, 3);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (6, 3); 
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (7, 3);
 
-INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (5, 1, null, 1);
-INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (3, 2, null, 1);
-INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (4, 3, null, 1);
-INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (5, 4, null, 1);
-INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (3, null, 4, 1);
+INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (5, 1, null, 2);
+INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (3, 2, null, 2);
+INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (4, 3, null, 2);
+INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (5, 4, null, 2);
+INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (3, null, 4, 2);
 INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (4, null, 4, 2);
-INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (4, null, 5, 1);
-INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (5, null, 6, 1);
-INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (2, null, 7, 1);
+INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (4, null, 5, 2);
+INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (5, null, 6, 2);
+INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (2, null, 7, 2);
 
 
 

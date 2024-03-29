@@ -37,6 +37,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Autowired
 	private AppointmentPriceRepository appointmentPriceRepository;
 
+	@Autowired
+	private EmailService emailService;
+
 	public Appointment findById(Long id) {
 		Appointment appointment = appointmentRepository.findById(id).orElse(null);
 		return appointment;
@@ -113,6 +116,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		appointment.setType(dto.getType());
 		appointment.setPrice(dto.getPrice());
 		appointment = this.appointmentRepository.save(appointment);
+		emailService.sendAppointmentInquiry(loggedUser, appointment);
 
 		return appointment;
 	}
@@ -154,7 +158,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	public List<AppointmentUserDTO> findAllByUserId(Long id) {
-		List<Appointment> appointments = appointmentRepository.findAllByUserId(id);
+		List<Appointment> appointments = appointmentRepository.findAllByUserIdAndStatus(id, AppointmentStatus.ACCEPTED);
 		List<AppointmentUserDTO> appointmentsUser = new ArrayList<AppointmentUserDTO>();
 		for (Appointment appointment: appointments) {
 			AppointmentUserDTO dto = new AppointmentUserDTO();
@@ -187,5 +191,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 		}
 		appointment.setUser(loggedUser);
 		appointmentRepository.save(appointment);
+		emailService.sendAppointmentConfiramtion(loggedUser);
 	}
 }
