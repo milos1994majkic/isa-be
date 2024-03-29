@@ -90,7 +90,6 @@ public class AuthenticationController {
 
 	@PostMapping("/logout")
 	public ResponseEntity<String> logout() {
-		// Invalidate the current session and clear authentication
 		SecurityContextHolder.clearContext();
 		return ResponseEntity.ok("Logged out successfully");
 	}
@@ -98,7 +97,6 @@ public class AuthenticationController {
 	@PutMapping("/activate")
 	public ResponseEntity<?> activateAccount(@RequestBody String id) {
 		this.userService.activateAccount(id);
-
 		return new ResponseEntity<> (HttpStatus.OK);
 	}
 }

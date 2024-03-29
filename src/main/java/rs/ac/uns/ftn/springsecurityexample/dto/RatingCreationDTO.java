@@ -41,5 +41,4 @@ public class RatingCreationDTO {
 	public void setDoctorId(Long doctorId) {
 		this.doctorId = doctorId;
 	}
-
 }

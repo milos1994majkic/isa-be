@@ -6,15 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import rs.ac.uns.ftn.springsecurityexample.model.Clinic;
 import rs.ac.uns.ftn.springsecurityexample.model.User;
 import rs.ac.uns.ftn.springsecurityexample.model.enums.UserStatus;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 	User findByUsername(String username);
-
 	List<User> getByStatus(UserStatus status);
-
 	List<User> findByClinicId(Long clinicId);
 
 	@Query("SELECT u FROM User u WHERE " +

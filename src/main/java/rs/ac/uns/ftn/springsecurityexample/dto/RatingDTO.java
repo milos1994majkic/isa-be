@@ -1,7 +1,6 @@
 package rs.ac.uns.ftn.springsecurityexample.dto;
 
 public class RatingDTO {
-
 	private Long id;
 	private int value;
 	private String clinicName;

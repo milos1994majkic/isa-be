@@ -30,73 +30,52 @@ import rs.ac.uns.ftn.springsecurityexample.model.enums.UserStatus;
 @Entity
 @Table(name="USERS")
 public class User implements UserDetails {
-
 	private static final long serialVersionUID = 1L;
-
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "username")
     private String username;
-
     @JsonIgnore
     @Column(name = "password")
     private String password;
-
     @Column(name = "first_name")
     private String firstName;
-
     @Column(name = "last_name")
     private String lastName;
-
     @Column(name = "email")
     private String email;
-    
     @Column(name = "address")
     private String address;
-	
     @Column(name = "city")
 	private String city;
-	
     @Column(name = "state")
 	private String state;
-	
     @Column(name = "phone")
 	private String phone;
-	
     @Column(name = "lbo")
 	private String lbo;
-
 	@Column(name = "activation_code")
     private String activationCode;
-	
 	@Column(name = "denial_reason")
     private String denialReason;
-    
     @Column(name = "status")
     private UserStatus status;
-
     @Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
-    
     //if user is admin
     @ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "clinic_id", nullable = true)
 	private Clinic clinic;
-
-
     //if user is doctor
     @Column(name = "appointment_type")
     private AppointmentType appointmentType;
-
     @Column(name = "rating")
     private float rating;
 
@@ -176,8 +155,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return status == UserStatus.ACTIVATED;
     }
-
-    
     
     public String getDenialReason() {
 		return denialReason;

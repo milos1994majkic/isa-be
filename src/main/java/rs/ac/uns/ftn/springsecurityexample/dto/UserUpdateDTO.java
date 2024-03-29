@@ -1,23 +1,14 @@
 package rs.ac.uns.ftn.springsecurityexample.dto;
 
 public class UserUpdateDTO {
-
     private Long id;
-
     private String username;
-
     private String password;
-
     private String firstname;
-
     private String lastname;
-
     private String address;
-
     private String city;
-
     private String state;
-
     private String phone;
 
     public UserUpdateDTO() {

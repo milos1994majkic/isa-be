@@ -4,7 +4,6 @@ import java.util.List;
 
 import rs.ac.uns.ftn.springsecurityexample.dto.ClinicDTO;
 import rs.ac.uns.ftn.springsecurityexample.dto.ClinicSearchDTO;
-import rs.ac.uns.ftn.springsecurityexample.dto.DoctorDTO;
 import rs.ac.uns.ftn.springsecurityexample.model.Clinic;
 
 public interface ClinicService {

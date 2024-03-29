@@ -20,7 +20,6 @@ INSERT INTO USERS (username, password, first_name, last_name, email, address, ci
 INSERT INTO USERS (username, password, first_name, last_name, email, address, city, state, phone, lbo, activation_code, denial_reason, status, last_password_reset_date, clinic_id, appointment_type, rating) VALUES ('dragan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Dragan', 'Draganic', 'dragan@example.com', 'Maksima Gorkog 5', 'Novi Sad', 'Serbia', '06012345678', '123456784', 'ZDZjNzRkNzUtNzVjMy00MzljLTg5OTEtMGM3NGUzMWFkYjQ0MTcwOTI5NTUzMjg3MF', '', 3, '2017-10-01 18:57:58.508-07', 3, 0, 5.0);
 INSERT INTO USERS (username, password, first_name, last_name, email, address, city, state, phone, lbo, activation_code, denial_reason, status, last_password_reset_date, clinic_id, appointment_type, rating) VALUES ('pera', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Pera', 'Perovic', 'pera@example.com', 'Momcila Tapavice 13', 'Novi Sad', 'Serbia', '06012345678', '123456785', 'ZDZjNzRkNzUtNzVjMy00MzljLTg5OTEtMGM3NGUzMWFkYjQ0MTcwOTI5NTUzMjg3ML', '', 3, '2017-10-01 18:57:58.508-07', 4, 1, 2.0);
 
-
 INSERT INTO ROLE (name) VALUES ('ROLE_USER');
 INSERT INTO ROLE (name) VALUES ('ROLE_ADMIN');
 INSERT INTO ROLE (name) VALUES ('ROLE_DOCTOR');
@@ -44,8 +43,6 @@ INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (4, null, 5, 2)
 INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (5, null, 6, 2);
 INSERT INTO RATING (value, clinic_id, doctor_id, user_id) VALUES (2, null, 7, 2);
 
-
-
 INSERT INTO ROOM (name) VALUES ('room 1');
 INSERT INTO ROOM (name) VALUES ('room 2');
 INSERT INTO ROOM (name) VALUES ('room 3');
@@ -65,8 +62,6 @@ INSERT INTO APPOINTMENT (date, time, doctor_id, user_id, clinic_id, room_id, sta
 INSERT INTO APPOINTMENT (date, time, doctor_id, user_id, clinic_id, room_id, status, type, price) VALUES ('2025-05-21', '13:50:56', 6, null, 1, 1, 0, 0, 8500.0);
 INSERT INTO APPOINTMENT (date, time, doctor_id, user_id, clinic_id, room_id, status, type, price) VALUES ('2024-09-15', '12:00:00', 4, null, 1, 2, 0, 2, 8000.0);
 INSERT INTO APPOINTMENT (date, time, doctor_id, user_id, clinic_id, room_id, status, type, price) VALUES ('2024-07-10', '16:00:00', 4, null, 1, 1, 0, 0, 2500.0);
-
-
 
 INSERT INTO APPOINTMENT_PRICE (clinic_id, appointment_type, price) VALUES (1, 0, 4200);
 INSERT INTO APPOINTMENT_PRICE (clinic_id, appointment_type, price) VALUES (1, 1, 4210);

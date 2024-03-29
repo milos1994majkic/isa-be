@@ -1,10 +1,12 @@
 package rs.ac.uns.ftn.springsecurityexample.dto;
 
 public class RoomDTO {
-
 	private Long id;
 	private String name;
-	
+
+	public RoomDTO() {
+	}
+
 	public Long getId() {
 		return id;
 	}

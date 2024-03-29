@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.springsecurityexample.dto.AppointmentDTO;
 import rs.ac.uns.ftn.springsecurityexample.dto.AppointmentUserDTO;
-import rs.ac.uns.ftn.springsecurityexample.dto.ClinicSearchDTO;
 import rs.ac.uns.ftn.springsecurityexample.mapper.AppointmentMapper;
 import rs.ac.uns.ftn.springsecurityexample.model.*;
 import rs.ac.uns.ftn.springsecurityexample.model.enums.AppointmentStatus;
@@ -20,23 +19,18 @@ import rs.ac.uns.ftn.springsecurityexample.service.AppointmentService;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
-
 	@Autowired
 	private AppointmentRepository appointmentRepository;
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
 	private ClinicRepository clinicRepository;
-
 	@Autowired
 	private RoomRepository roomRepository;
-
 	@Autowired
 	private RatingRepository ratingRepository;
-
 	@Autowired
 	private AppointmentPriceRepository appointmentPriceRepository;
-
 	@Autowired
 	private EmailService emailService;
 
@@ -61,17 +55,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 		}
 		return true;
 	}
+
 	public List<Appointment> getFreeAppointmentsForDoctor(Clinic clinic, User doctor, LocalDate date, AppointmentType type){
 		if(doctor.getAppointmentType() != type){
 			return new ArrayList<Appointment>();
 		}
-
 		List<Appointment> freeAppointments = new ArrayList<Appointment>();
 		List<Appointment> doctorAppointments = appointmentRepository.getByDoctorIdAndDate(doctor.getId(), date);
-
 		LocalTime startTime = clinic.getStartTime();
 		LocalTime endTime = clinic.getEndTime();
-
 		while(startTime.isBefore(endTime)){
 			if(isDoctorFree(doctorAppointments, startTime)){
 				Appointment appointment = new Appointment();
@@ -85,10 +77,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 				appointment.setType(type);
 				AppointmentPrice price = appointmentPriceRepository.getByClinicIdAndAppointmentType(clinic.getId(), type);
 				appointment.setPrice(price.getPrice());
-
 				freeAppointments.add(appointment);
 			}
-
 			startTime = startTime.plusMinutes(30);
 		}
 		return freeAppointments;
@@ -103,9 +93,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		if(clinic == null){
 			return null;
 		}
-
 		Room room = roomRepository.findById(1l).orElse(null);
-
 		Appointment appointment = AppointmentMapper.toDomain(dto);
 		appointment.setUser(loggedUser);
 		appointment.setRoom(room);
@@ -117,7 +105,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 		appointment.setPrice(dto.getPrice());
 		appointment = this.appointmentRepository.save(appointment);
 		emailService.sendAppointmentInquiry(loggedUser, appointment);
-
 		return appointment;
 	}
 
@@ -126,14 +113,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 		if (appointment == null) {
 			return null;
 		}
-
 		if (appointment.getStatus() != AppointmentStatus.CREATED) {
 			return null;
 		}
 		appointment.setStatus(AppointmentStatus.ACCEPTED);
-
 		this.appointmentRepository.save(appointment);
-
 		return appointment;
 	}
 
@@ -146,14 +130,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 			return null;
 		}
 		appointment.setStatus(AppointmentStatus.DENIED);
-
 		this.appointmentRepository.save(appointment);
-
 		return appointment;
 	}
 
 	public List<Appointment> findAllPredefined(Long clinicId) {
-
 		return appointmentRepository.findByUserIsNullAndClinicId(clinicId);
 	}
 
@@ -162,7 +143,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 		List<AppointmentUserDTO> appointmentsUser = new ArrayList<AppointmentUserDTO>();
 		for (Appointment appointment: appointments) {
 			AppointmentUserDTO dto = new AppointmentUserDTO();
-
 			dto.setId(appointment.getId());
 			dto.setDate(appointment.getDate());
 			dto.setTime(appointment.getTime());
@@ -175,12 +155,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 			dto.setStatus(appointment.getStatus());
 			dto.setPrice(appointment.getPrice());
 			dto.setType(appointment.getType());
-
 			dto.setRated(ratingRepository.existsRatingByUserAndDoctorOrClinic(appointment.getUser().getId(), appointment.getDoctor().getId(), appointment.getClinic().getId()));
-
 			appointmentsUser.add(dto);
 		}
-
 		return appointmentsUser;
 	}
 

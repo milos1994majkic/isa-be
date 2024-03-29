@@ -1,29 +1,21 @@
 package rs.ac.uns.ftn.springsecurityexample.dto;
 
-// DTO koji preuzima podatke iz HTML forme za registraciju
+// DTO that retrieves data from an HTML registration form
 public class UserRequest {
-
 	private Long id;
-
 	private String username;
-
 	private String password;
-
 	private String firstname;
-
 	private String lastname;
-	
 	private String email;
-	
 	private String address;
-	
 	private String city;
-	
 	private String state;
-	
 	private String phone;
-	
 	private String lbo;
+
+	public UserRequest() {
+	}
 
 	public String getUsername() {
 		return username;

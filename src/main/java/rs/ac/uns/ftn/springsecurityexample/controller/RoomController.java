@@ -14,13 +14,11 @@ import rs.ac.uns.ftn.springsecurityexample.dto.RoomDTO;
 import rs.ac.uns.ftn.springsecurityexample.mapper.RoomMapper;
 import rs.ac.uns.ftn.springsecurityexample.model.Room;
 import rs.ac.uns.ftn.springsecurityexample.service.RoomService;
-import rs.ac.uns.ftn.springsecurityexample.service.impl.RoomServiceImpl;
 
 @RestController
 @RequestMapping(value = "/api/room", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
 public class RoomController {
-
 	@Autowired
 	private RoomService roomService;
 
@@ -37,6 +35,6 @@ public class RoomController {
 		for (Room room : rooms) {
 			dtos.add(RoomMapper.toDTO(room));
 		}
-		return new ResponseEntity<List<RoomDTO>>(dtos, HttpStatus.OK);
+		return new ResponseEntity<>(dtos, HttpStatus.OK);
 	}
 }

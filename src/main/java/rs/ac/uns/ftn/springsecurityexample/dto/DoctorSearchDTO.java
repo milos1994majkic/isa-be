@@ -7,11 +7,8 @@ import java.time.LocalDate;
 public class DoctorSearchDTO {
     private String firstName;
     private String lastName;
-
     private Float ratingFrom;
-
     private Float ratingTo;
-
     private long clinicId;
     private LocalDate date;
     private AppointmentType appointmentType;

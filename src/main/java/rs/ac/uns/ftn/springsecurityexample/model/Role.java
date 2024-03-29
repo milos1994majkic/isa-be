@@ -9,14 +9,11 @@ import javax.persistence.*;
 @Entity
 @Table(name="ROLE")
 public class Role implements GrantedAuthority {
-
 	private static final long serialVersionUID = 1L;
-
 	@Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-
     @Column(name="name")
     String name;
 
@@ -42,5 +39,4 @@ public class Role implements GrantedAuthority {
     public void setId(Long id) {
         this.id = id;
     }
-
 }

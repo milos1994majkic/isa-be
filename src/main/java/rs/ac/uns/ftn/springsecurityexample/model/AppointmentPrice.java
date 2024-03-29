@@ -7,19 +7,15 @@ import javax.persistence.*;
 @Entity
 @Table(name = "APPOINTMENT_PRICE")
 public class AppointmentPrice {
-
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "clinic_id", nullable = false)
     private Clinic clinic;
-
     @Column(name = "appointment_type", nullable = false)
     private AppointmentType appointmentType;
-
     @Column(name = "price", nullable = false)
     private int price;
 

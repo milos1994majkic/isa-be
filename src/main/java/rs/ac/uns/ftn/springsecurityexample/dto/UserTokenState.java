@@ -1,8 +1,7 @@
 package rs.ac.uns.ftn.springsecurityexample.dto;
 
-// DTO koji enkapsulira generisani JWT i njegovo trajanje koji se vracaju klijentu
+// DTO that encapsulates the generated JWT and its expiration returned to the client
 public class UserTokenState {
-	
     private String accessToken;
     private Long expiresIn;
 
@@ -31,5 +30,4 @@ public class UserTokenState {
     public void setExpiresIn(Long expiresIn) {
         this.expiresIn = expiresIn;
     }
-    
 }

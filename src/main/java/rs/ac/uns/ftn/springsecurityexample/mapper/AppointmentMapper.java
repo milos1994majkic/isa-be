@@ -16,6 +16,7 @@ public class AppointmentMapper {
         appointment.setType(dto.getType());
         return appointment;
     }
+
     public static AppointmentDTO toDTO(Appointment appointment) {
         AppointmentDTO dto = new AppointmentDTO();
         dto.setId(appointment.getId());
@@ -40,7 +41,6 @@ public class AppointmentMapper {
         for(Appointment appointment : appointments){
             dtos.add(toDTO(appointment));
         }
-
         return dtos;
     }
 }

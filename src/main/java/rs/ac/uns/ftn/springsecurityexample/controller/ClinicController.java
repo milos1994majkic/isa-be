@@ -12,19 +12,14 @@ import org.springframework.web.bind.annotation.*;
 
 import rs.ac.uns.ftn.springsecurityexample.dto.ClinicDTO;
 import rs.ac.uns.ftn.springsecurityexample.dto.ClinicSearchDTO;
-import rs.ac.uns.ftn.springsecurityexample.dto.DoctorDTO;
 import rs.ac.uns.ftn.springsecurityexample.mapper.ClinicMapper;
 import rs.ac.uns.ftn.springsecurityexample.model.Clinic;
 import rs.ac.uns.ftn.springsecurityexample.service.ClinicService;
-import rs.ac.uns.ftn.springsecurityexample.service.impl.ClinicServiceImpl;
-
-import javax.websocket.server.PathParam;
 
 @RestController
 @RequestMapping(value = "/api/clinic", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
 public class ClinicController {
-
 	@Autowired
 	private ClinicService clinicService;
 	
@@ -48,11 +43,7 @@ public class ClinicController {
 	@PostMapping("/search")
 	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<List<ClinicDTO>> search(@RequestBody ClinicSearchDTO dto) {
-
 		List<ClinicDTO> dtos = this.clinicService.search(dto);
-
 		return new ResponseEntity<>(dtos, HttpStatus.OK);
 	}
-
-	
 }
