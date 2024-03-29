@@ -11,7 +11,6 @@ public class DoctorMapper {
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
         dto.setRating(user.getRating());
-
         return dto;
     }
 }

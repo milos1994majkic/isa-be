@@ -18,64 +18,49 @@ import javax.mail.internet.MimeMessage;
 
 @Service
 public class EmailService {
-
 	@Autowired
 	private JavaMailSender javaMailSender;
-
 	@Autowired
 	private Environment env;
 
 	public void sendActivationCode(User user) {
-
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(user.getEmail());
 		mail.setFrom(env.getProperty("spring.mail.username"));
 		mail.setSubject("Account activation");
-
 		String activationURL = "http://localhost:5173/activateAccount/" + user.getActivationCode();
-
 		mail.setText("Hello, " + user.getFirstName() + "! \n "
 				+ "To acctivate your account, please click the following link:\n" + activationURL);
-
 		javaMailSender.send(mail);
 	}
 	
 	public void sendDenialReason(User user) {
-
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(user.getEmail());
 		mail.setFrom(env.getProperty("spring.mail.username"));
 		mail.setSubject("Denial reason");
-
-
 		mail.setText("Hello, " + user.getFirstName() + "! \n "
 				+ "Your account have been denied.\n Reason: " + user.getDenialReason());
-
 		javaMailSender.send(mail);
 	}
 
 	public String generateActivationCode() {
 		String randomString = UUID.randomUUID().toString();
-
 		long timestamp = System.currentTimeMillis();
 		String uniqueCode = randomString + timestamp;
-
 		byte[] uniqueCodeBytes = uniqueCode.getBytes();
 		return Base64.getUrlEncoder().withoutPadding().encodeToString(uniqueCodeBytes);
 	}
 
 	public void sendAppointmentConfiramtion(User user) {
-
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(user.getEmail());
 		mail.setFrom(env.getProperty("spring.mail.username"));
 		mail.setSubject("Appointment confirmation");
-
 		mail.setText("Hello, " + user.getFirstName() + "!\n\n"
 				+ "We are pleased to inform you that your appointment has been successfully booked.\n"
 				+ "We look forward to seeing you at your scheduled appointment.\n\n"
 				+ "Best regards,");
-
 		javaMailSender.send(mail);
 	}
 

@@ -14,15 +14,11 @@ public class RatingMapper {
 		dto.setValue(rating.getValue());
 		if(rating.getClinic() != null) {
 			dto.setClinicName(rating.getClinic().getName());
-			
 		}
 		if(rating.getDoctor() != null) {
 			dto.setDoctorName(rating.getDoctor().getFirstName() + " " + rating.getDoctor().getLastName());
-			
 		}
 		dto.setUserName(rating.getUser().getEmail());
-		
 		return dto;
-
 	}
 }

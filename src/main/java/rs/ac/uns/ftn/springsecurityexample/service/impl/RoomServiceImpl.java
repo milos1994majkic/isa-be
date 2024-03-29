@@ -11,7 +11,6 @@ import rs.ac.uns.ftn.springsecurityexample.service.RoomService;
 
 @Service
 public class RoomServiceImpl implements RoomService {
-
 	@Autowired
 	private RoomRepository roomRepository;
 

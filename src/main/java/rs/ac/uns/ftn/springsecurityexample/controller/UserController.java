@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import rs.ac.uns.ftn.springsecurityexample.dto.*;
 import rs.ac.uns.ftn.springsecurityexample.mapper.UserDataMapper;
-import rs.ac.uns.ftn.springsecurityexample.model.Appointment;
 import rs.ac.uns.ftn.springsecurityexample.model.User;
 import rs.ac.uns.ftn.springsecurityexample.service.AppointmentService;
 import rs.ac.uns.ftn.springsecurityexample.service.UserService;
@@ -79,19 +78,15 @@ public class UserController {
 	public ResponseEntity<UserData> updateProfile(@RequestBody UserUpdateDTO userUpdateDTO) {
 		UserData userData = this.userService.updateUser(userUpdateDTO);
 		if(userData == null){
-			return new ResponseEntity<UserData>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<UserData>(userData, HttpStatus.OK);
+		return new ResponseEntity<>(userData, HttpStatus.OK);
 	}
 
 	@PostMapping("/doctor/search")
 	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<List<DoctorDTO>> search(@RequestBody DoctorSearchDTO dto) {
-
 		List<DoctorDTO> dtos = this.userService.getFreeDoctors(dto);
-
 		return new ResponseEntity<>(dtos, HttpStatus.OK);
 	}
-
-
 }

@@ -1,11 +1,9 @@
 package rs.ac.uns.ftn.springsecurityexample.dto;
 
 public class ClinicDTO {
-
 	private Long id;
 	private String name;
 	private String address;
-
 	private float rating;
 	private int price;
 	

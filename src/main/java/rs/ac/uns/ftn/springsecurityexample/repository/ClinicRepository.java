@@ -9,7 +9,6 @@ import rs.ac.uns.ftn.springsecurityexample.model.Clinic;
 import java.util.List;
 
 public interface ClinicRepository extends JpaRepository<Clinic, Long> {
-
     @Query("SELECT c FROM Clinic c WHERE " +
             "(:address IS NULL OR c.address LIKE %:address%) AND " +
             "(:ratingFrom IS NULL OR c.rating >= :ratingFrom) AND " +

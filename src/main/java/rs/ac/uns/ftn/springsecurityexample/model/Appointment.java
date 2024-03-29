@@ -1,7 +1,6 @@
 package rs.ac.uns.ftn.springsecurityexample.model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import javax.persistence.Column;
@@ -20,43 +19,32 @@ import rs.ac.uns.ftn.springsecurityexample.model.enums.AppointmentType;
 @Entity
 @Table(name = "APPOINTMENT")
 public class Appointment {
-
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 	@Column(name = "date", nullable = false)
 	private LocalDate date;
-
 	@Column(name = "time", nullable = false)
 	private LocalTime time;
-
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "doctor_id", nullable = false)
 	private User doctor;
-
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", nullable = true)
 	private User user;
-
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "clinic_id", nullable = false)
 	private Clinic clinic;
-
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "room_id", nullable = false)
 	private Room room;
-
 	@Column(name = "status", nullable = false)
 	private AppointmentStatus status;
-
 	@Column(name = "type", nullable = false)
 	private AppointmentType type;
-
 	@Column(name = "price", nullable = false)
 	private int price;
-
 
 	public Appointment() {
 		super();

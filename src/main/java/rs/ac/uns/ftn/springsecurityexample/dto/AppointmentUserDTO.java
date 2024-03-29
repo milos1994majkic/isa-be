@@ -14,13 +14,13 @@ public class AppointmentUserDTO {
     private String doctor;
     private long userId;
     private boolean rated;
-
     private long clinicId;
     private String clinic;
     private String room;
     private AppointmentStatus status;
     private AppointmentType type;
     private int price;
+
     public AppointmentUserDTO() {
     }
 

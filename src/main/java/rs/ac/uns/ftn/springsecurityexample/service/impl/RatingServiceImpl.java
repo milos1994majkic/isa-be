@@ -16,16 +16,13 @@ import rs.ac.uns.ftn.springsecurityexample.service.RatingService;
 
 @Service
 public class RatingServiceImpl implements RatingService {
-
 	@Autowired
 	private RatingRepository ratingRepository;
-	
 	@Autowired
 	private ClinicRepository clinicRepository;
-	
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	public Rating findById(Long id) {
 		Rating rating = ratingRepository.findById(id).orElse(null);
 		return rating;
@@ -58,7 +55,6 @@ public class RatingServiceImpl implements RatingService {
 	public Rating create(RatingCreationDTO dto, User loggedUser) {
 		Rating rating = new Rating();
 		rating.setValue(dto.getValue());
-		
 		Clinic clinic = null;
 		if(dto.getClinicId() != 0) {
 			clinic = clinicRepository.findById(dto.getClinicId()).orElse(null);
@@ -69,14 +65,11 @@ public class RatingServiceImpl implements RatingService {
 		}
 		rating.setClinic(clinic);
 		rating.setDoctor(doctor);
-
 		rating.setUser(loggedUser);
 		ratingRepository.save(rating);
-
-
 		if(clinic != null){
 			updateClinicRating(clinic.getId());
-		}else if(doctor != null){
+		} else if(doctor != null){
 			updateDoctorRating(doctor.getId());
 		}
 		return rating;

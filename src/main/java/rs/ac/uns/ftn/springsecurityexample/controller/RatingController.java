@@ -11,27 +11,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import rs.ac.uns.ftn.springsecurityexample.dto.AppointmentDTO;
 import rs.ac.uns.ftn.springsecurityexample.dto.RatingCreationDTO;
 import rs.ac.uns.ftn.springsecurityexample.dto.RatingDTO;
-import rs.ac.uns.ftn.springsecurityexample.mapper.AppointmentMapper;
 import rs.ac.uns.ftn.springsecurityexample.mapper.RatingCreationMapper;
 import rs.ac.uns.ftn.springsecurityexample.mapper.RatingMapper;
-import rs.ac.uns.ftn.springsecurityexample.model.Appointment;
 import rs.ac.uns.ftn.springsecurityexample.model.Rating;
 import rs.ac.uns.ftn.springsecurityexample.model.User;
 import rs.ac.uns.ftn.springsecurityexample.service.RatingService;
 import rs.ac.uns.ftn.springsecurityexample.service.UserService;
-import rs.ac.uns.ftn.springsecurityexample.service.impl.RatingServiceImpl;
 
 @RestController
 @RequestMapping(value = "/api/rating", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
 public class RatingController {
-
 	@Autowired
 	private RatingService ratingService;
-
 	@Autowired
 	private UserService userService;
 
@@ -56,5 +50,4 @@ public class RatingController {
 		RatingCreationDTO ratingCreationDTO = RatingCreationMapper.toDTO(newRating);
 		return new ResponseEntity<>(ratingCreationDTO, HttpStatus.OK);
 	}
-
 }

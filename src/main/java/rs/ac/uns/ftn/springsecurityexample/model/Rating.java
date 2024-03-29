@@ -13,23 +13,18 @@ import javax.persistence.Table;
 @Entity
 @Table(name="RATING")
 public class Rating {
-
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
 	@Column(name="value", nullable=true)
 	private int value;
-	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "clinic_id", nullable=true)
 	private Clinic clinic;
-	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "doctor_id", nullable=true)
 	private User doctor;
-	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", nullable=false)
 	private User user;

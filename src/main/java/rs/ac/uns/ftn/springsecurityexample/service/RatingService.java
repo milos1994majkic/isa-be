@@ -9,6 +9,5 @@ import rs.ac.uns.ftn.springsecurityexample.model.User;
 public interface RatingService {
 	Rating findById(Long id);
 	List<Rating> findAll();
-
 	Rating create(RatingCreationDTO dto, User loggedUser);
 }

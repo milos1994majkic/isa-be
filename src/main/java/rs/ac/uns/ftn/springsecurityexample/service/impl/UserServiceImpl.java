@@ -25,22 +25,16 @@ import rs.ac.uns.ftn.springsecurityexample.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
-
 	@Autowired
 	private UserRepository userRepository;
-
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-
 	@Autowired
 	private RoleService roleService;
-	
 	@Autowired
 	private EmailService emailService;
-
 	@Autowired
 	private AppointmentService appointmentService;
-
 	@Autowired
 	private ClinicRepository clinicRepository;
 
@@ -61,9 +55,7 @@ public class UserServiceImpl implements UserService {
 	public User save(UserRequest userRequest) {
 		User u = new User();
 		u.setUsername(userRequest.getUsername());
-		
 		u.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-		
 		u.setFirstName(userRequest.getFirstname());
 		u.setLastName(userRequest.getLastname());
 		u.setEmail(userRequest.getEmail());
@@ -72,17 +64,12 @@ public class UserServiceImpl implements UserService {
 		u.setState(userRequest.getState());
 		u.setPhone(userRequest.getPhone());
 		u.setLbo(userRequest.getLbo());
-		
 		u.setActivationCode(emailService.generateActivationCode());
-
 		u.setStatus(UserStatus.PENDING);
-		
 		// u primeru se registruju samo obicni korisnici i u skladu sa tim im se i dodeljuje samo rola USER
 		List<Role> roles = roleService.findByName("ROLE_USER");
 		u.setRoles(roles);
-		
 		emailService.sendActivationCode(u);
-		
 		return this.userRepository.save(u);
 	}
 	
@@ -95,13 +82,9 @@ public class UserServiceImpl implements UserService {
 		if(user == null) {
 			return null;
 		}
-		
 		user.setStatus(UserStatus.ACCEPTED);
-		
 		userRepository.save(user);
-		
 		emailService.sendActivationCode(user);
-		
 		return user;
 	}
 	
@@ -110,15 +93,10 @@ public class UserServiceImpl implements UserService {
 		if(user == null) {
 			return null;
 		}
-		
 		user.setStatus(UserStatus.DENIED);
-		
 		user.setDenialReason(denyReason);
-		
 		userRepository.save(user);
-		
 		emailService.sendDenialReason(user);
-		
 		return user;
 	}
 
@@ -127,7 +105,6 @@ public class UserServiceImpl implements UserService {
 		if(user == null) {
 			return null;
 		}
-
 		user.setPassword(passwordEncoder.encode(userUpdateDTO.getPassword()));
 		user.setFirstName(userUpdateDTO.getFirstname());
 		user.setLastName(userUpdateDTO.getLastname());
@@ -135,21 +112,16 @@ public class UserServiceImpl implements UserService {
 		user.setCity(userUpdateDTO.getCity());
 		user.setState(userUpdateDTO.getState());
 		user.setPhone(userUpdateDTO.getPhone());
-
 		userRepository.save(user);
-
         return UserDataMapper.toDTO(user);
 	}
 
 	public List<DoctorDTO> getFreeDoctors(DoctorSearchDTO dto){
-
 		Clinic clinic = clinicRepository.findById(dto.getClinicId()).orElseGet(null);
 		if(clinic == null){
 			return null;
 		}
-
 		List<User> doctors = userRepository.searchDoctor(dto.getClinicId(), dto.getFirstName(), dto.getLastName(), dto.getRatingFrom(), dto.getRatingTo());
-
 		List<DoctorDTO> doctorDtos = new ArrayList<DoctorDTO>();
 		for(User user : doctors){
 			List<Appointment> doctorFreeAppointments = appointmentService.getFreeAppointmentsForDoctor(clinic, user, dto.getDate(), dto.getAppointmentType());
@@ -157,13 +129,11 @@ public class UserServiceImpl implements UserService {
 				continue;
 			}
 			List<AppointmentDTO> doctorFreeAppointmentsDtos = AppointmentMapper.toDTOList(doctorFreeAppointments);
-
 			DoctorDTO doctorDTO = new DoctorDTO();
 			doctorDTO.setFirstName(user.getFirstName());
 			doctorDTO.setLastName(user.getLastName());
 			doctorDTO.setRating(user.getRating());
 			doctorDTO.setFreeAppointments(doctorFreeAppointmentsDtos);
-
 			doctorDtos.add(doctorDTO);
 		}
 		return doctorDtos;
@@ -174,7 +144,6 @@ public class UserServiceImpl implements UserService {
 		if(user == null || user.getStatus() == UserStatus.ACTIVATED) {
 			return false;
 		}
-
 		user.setStatus(UserStatus.ACTIVATED);
 		this.userRepository.save(user);
 		return true;

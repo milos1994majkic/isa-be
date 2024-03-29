@@ -11,7 +11,6 @@ import rs.ac.uns.ftn.springsecurityexample.service.RoleService;
 
 @Service
 public class RoleServiceImpl implements RoleService {
-
   @Autowired
   private RoleRepository roleRepository;
 
@@ -26,6 +25,4 @@ public class RoleServiceImpl implements RoleService {
 	List<Role> roles = this.roleRepository.findByName(name);
     return roles;
   }
-
-
 }
