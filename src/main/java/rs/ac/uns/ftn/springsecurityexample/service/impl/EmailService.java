@@ -52,14 +52,14 @@ public class EmailService {
 		return Base64.getUrlEncoder().withoutPadding().encodeToString(uniqueCodeBytes);
 	}
 
-	public void sendAppointmentConfiramtion(User user) {
+	public void sendAppointmentConfiramtion(User user, Appointment appointment) {
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(user.getEmail());
 		mail.setFrom(env.getProperty("spring.mail.username"));
 		mail.setSubject("Appointment confirmation");
 		mail.setText("Hello, " + user.getFirstName() + "!\n\n"
 				+ "We are pleased to inform you that your appointment has been successfully booked.\n"
-				+ "We look forward to seeing you at your scheduled appointment.\n\n"
+				+ "We look forward to seeing you at your scheduled appointment for " + appointment.getDate() + " at " + appointment.getTime() + ".\n\n"
 				+ "Best regards,");
 		javaMailSender.send(mail);
 	}

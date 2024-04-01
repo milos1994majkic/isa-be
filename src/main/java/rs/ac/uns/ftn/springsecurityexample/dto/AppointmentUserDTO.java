@@ -13,7 +13,8 @@ public class AppointmentUserDTO {
     private long doctorId;
     private String doctor;
     private long userId;
-    private boolean rated;
+    private boolean ratedClinic;
+    private boolean ratedDoctor;
     private long clinicId;
     private String clinic;
     private String room;
@@ -120,11 +121,19 @@ public class AppointmentUserDTO {
         this.clinicId = clinicId;
     }
 
-    public boolean isRated() {
-        return rated;
+    public boolean isRatedClinic() {
+        return ratedClinic;
     }
 
-    public void setRated(boolean rated) {
-        this.rated = rated;
+    public void setRatedClinic(boolean ratedClinic) {
+        this.ratedClinic = ratedClinic;
+    }
+
+    public boolean isRatedDoctor() {
+        return ratedDoctor;
+    }
+
+    public void setRatedDoctor(boolean ratedDoctor) {
+        this.ratedDoctor = ratedDoctor;
     }
 }

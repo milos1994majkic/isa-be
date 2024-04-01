@@ -155,7 +155,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 			dto.setStatus(appointment.getStatus());
 			dto.setPrice(appointment.getPrice());
 			dto.setType(appointment.getType());
-			dto.setRated(ratingRepository.existsRatingByUserAndDoctorOrClinic(appointment.getUser().getId(), appointment.getDoctor().getId(), appointment.getClinic().getId()));
+			dto.setRatedClinic(ratingRepository.existsRatingByUserAndClinic(appointment.getUser().getId(), appointment.getClinic().getId()));
+			dto.setRatedDoctor(ratingRepository.existsRatingByUserAndDoctor(appointment.getUser().getId(), appointment.getDoctor().getId()));
 			appointmentsUser.add(dto);
 		}
 		return appointmentsUser;
@@ -167,7 +168,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 			return;
 		}
 		appointment.setUser(loggedUser);
+		appointment.setStatus(AppointmentStatus.ACCEPTED);
 		appointmentRepository.save(appointment);
-		emailService.sendAppointmentConfiramtion(loggedUser);
+		emailService.sendAppointmentConfiramtion(loggedUser, appointment);
 	}
 }
